@@ -28,6 +28,6 @@ class AppController extends AbstractController
      */
     public function activate($user_id)
     {
-        return new Response('Activation page '.$user_id );
+        return new Response('Activation page '. $user_id );
     }
 }
