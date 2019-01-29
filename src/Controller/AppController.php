@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\User;
 use Hidehalo\Nanoid\Client;
-use Hidehalo\Nanoid\GeneratorInterface;
 
 class AppController extends AbstractController
 {
@@ -37,6 +36,11 @@ class AppController extends AbstractController
             dump($user);
             $em->persist($user);
             $em->flush();
+
+            return $this->redirectToRoute('activate', array(
+                'user_id' => $user->getUserId(),
+                'user' => $user,
+            ));
         }
 
         return $this->render('base.html.twig', array(
@@ -49,6 +53,12 @@ class AppController extends AbstractController
      */
     public function activate($user_id)
     {
-        return new Response('Activation page '. $user_id );
+        $repository = $this->getDoctrine()->getManager()->getRepository(User::class);
+
+        $user = $repository->findOneBy(array( 'user_id' => $user_id));
+
+        return $this->render('activate.html.twig', array(
+            'user' => $user,
+        ));
     }
 }

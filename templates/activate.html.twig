@@ -1,0 +1,8 @@
+
+{% block confirmation %}
+    {% if user.isActivated == false %}
+        <p>Please activate with the email we sent you</p>
+    {% else %}
+        <p>Your account is already activated</p>
+    {% endif %}
+{% endblock %}
