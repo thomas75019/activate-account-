@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Annotation;
@@ -14,13 +15,26 @@ class AppController extends AbstractController
     /**
      * @Route("/suscribe", name="suscribe")
      */
-    public function suscribe(User $user)
+    public function suscribe(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
         $user = new User();
         $user->setIsActivated(false);
 
-        return new Response('Suscribe page');
+        $form = $this->createForm(UserType::class, $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($user);
+            $em->flush();
+        }
+
+        return $this->render('base.html.twig', array(
+            'form' => $form->createView(),
+        ));
     }
 
     /**

@@ -6,7 +6,16 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        {% block body %}
+            {{ form_start(form, {
+                'attr': {'novalidate': "novalidate"}
+            }) }}
+            {{ form_row(form.pseudo) }}
+            {{ form_row(form.email) }}
+
+            <button type="submit">Créer</button>
+            {{ form_end(form) }}
+        {% endblock %}
         {% block javascripts %}{% endblock %}
     </body>
 </html>

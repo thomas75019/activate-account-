@@ -31,6 +31,11 @@ class User
      */
     private $isActivated;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $email;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -68,6 +73,18 @@ class User
     public function setIsActivated(bool $isActivated): self
     {
         $this->isActivated = $isActivated;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
 
         return $this;
     }
