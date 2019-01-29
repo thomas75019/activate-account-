@@ -9,6 +9,8 @@ use Symfony\Component\Routing\Annotation;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\User;
+use Hidehalo\Nanoid\Client;
+use Hidehalo\Nanoid\GeneratorInterface;
 
 class AppController extends AbstractController
 {
@@ -20,6 +22,7 @@ class AppController extends AbstractController
         $user = new User();
         $user->setIsActivated(false);
 
+
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
@@ -28,6 +31,10 @@ class AppController extends AbstractController
         {
             $em = $this->getDoctrine()->getManager();
 
+            $client = new Client();
+            $user->setUserId($client->generateId($size = 21));
+
+            dump($user);
             $em->persist($user);
             $em->flush();
         }
